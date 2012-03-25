@@ -1,11 +1,11 @@
 Summary:	Small footprint implementation of Tcl programming language
 Name:		jimtcl
-Version:	0.72
+Version:	0.73
 Release:	2
 License:	BSD
 Group:		Development/Languages/Tcl
 Source0:	https://github.com/msteveb/jimtcl/tarball/0.72#/%{name}-%{version}.tar.gz
-# Source0-md5:	a85cb7e07be192be517366295f438bb1
+# Source0-md5:	c86055ac018d171d76f823213819788f
 URL:		http://jim.tcl.tk/
 BuildRequires:	asciidoc
 BuildRequires:	tcl
@@ -28,7 +28,7 @@ Requires:	%{name} = %{version}-%{release}
 jimtcl header files and development documentation.
 
 %prep
-%setup -q -n msteveb-%{name}-b9db846
+%setup -q -n msteveb-%{name}-5b8ea68
 
 %build
 CC="%{__cc}" \
@@ -67,5 +67,5 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc Tcl.html
-#%attr(755,root,root) %{_bindir}/build-jim-ext
+%attr(755,root,root) %{_bindir}/build-jim-ext
 %{_includedir}/jim*.h
