@@ -1,11 +1,11 @@
 Summary:	Small footprint implementation of Tcl programming language
 Name:		jimtcl
-Version:	0.73
-Release:	1
+Version:	0.72
+Release:	2
 License:	BSD
 Group:		Development/Languages/Tcl
-Source0:	https://github.com/msteveb/jimtcl/tarball/0.73#/%{name}-%{version}.tar.gz
-# Source0-md5:	c86055ac018d171d76f823213819788f
+Source0:	https://github.com/msteveb/jimtcl/tarball/0.72#/%{name}-%{version}.tar.gz
+# Source0-md5:	a85cb7e07be192be517366295f438bb1
 URL:		http://jim.tcl.tk/
 BuildRequires:	asciidoc
 BuildRequires:	tcl
@@ -28,7 +28,7 @@ Requires:	%{name} = %{version}-%{release}
 jimtcl header files and development documentation.
 
 %prep
-%setup -q -n msteveb-%{name}-5b8ea68
+%setup -q -n msteveb-%{name}-b9db846
 
 %build
 CC="%{__cc}" \
@@ -47,7 +47,9 @@ install -d $RPM_BUILD_ROOT%{_libdir}
 
 %{makeinstall}
 
+%if "%{_lib}" != "lib"
 mv $RPM_BUILD_ROOT{/usr/lib/*,%{_libdir}}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,5 +67,5 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc Tcl.html
-%attr(755,root,root) %{_bindir}/build-jim-ext
+#%attr(755,root,root) %{_bindir}/build-jim-ext
 %{_includedir}/jim*.h
