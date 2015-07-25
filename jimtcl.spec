@@ -1,11 +1,11 @@
 Summary:	Small footprint implementation of Tcl programming language
 Name:		jimtcl
-Version:	0.73
-Release:	2
+Version:	0.76
+Release:	1
 License:	BSD
 Group:		Development/Languages/Tcl
-Source0:	https://github.com/msteveb/jimtcl/tarball/0.72#/%{name}-%{version}.tar.gz
-# Source0-md5:	c86055ac018d171d76f823213819788f
+Source0:	https://github.com/msteveb/jimtcl/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	9ae9b0b685ee2df708c747ad7fce4d70
 URL:		http://jim.tcl.tk/
 BuildRequires:	asciidoc
 BuildRequires:	tcl
@@ -28,13 +28,14 @@ Requires:	%{name} = %{version}-%{release}
 jimtcl header files and development documentation.
 
 %prep
-%setup -q -n msteveb-%{name}-5b8ea68
+%setup -q
 
 %build
 CC="%{__cc}" \
 CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 LDFLAGS="%{rpmldflags}" \
 ./configure \
+	--prefix=%{_prefix} \
 	--full \
 	--shared
 
@@ -42,14 +43,16 @@ LDFLAGS="%{rpmldflags}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_libdir}
 
-%{makeinstall}
+%{make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %if "%{_lib}" != "lib"
 mv $RPM_BUILD_ROOT{/usr/lib/*,%{_libdir}}
 %endif
+
+(cd $RPM_BUILD_ROOT%{_libdir} ; ln -s libjim.so{.%{version},})
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -62,10 +65,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS BUGS DEVELOPING README* TODO
 %attr(755,root,root) %{_bindir}/jimsh
 %dir %{_libdir}/jim
-%attr(755,root,root) %{_libdir}/libjim.so
+%attr(755,root,root) %{_libdir}/libjim.so.%{version}
 
 %files devel
 %defattr(644,root,root,755)
 %doc Tcl.html
 %attr(755,root,root) %{_bindir}/build-jim-ext
 %{_includedir}/jim*.h
+%attr(755,root,root) %{_libdir}/libjim.so
